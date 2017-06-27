@@ -1,0 +1,1619 @@
+<!doctype html>
+<html>
+<style>
+img { margin-left: 30px; margin-right: 30px; width: 80px; height: 50px;}
+</style>
+<head>
+	<link href="experiment.css" rel="stylesheet"></link>
+	<script src="scripts/jquery-1.11.3.min.js"></script>
+  <script src="node_modules/underscore/underscore-min.js"></script>
+	<script src="jspsych.js"></script>
+  <script src="plugins/jspsych-text.js"></script>
+  <script src="plugins/jspsych-single-stim.js"></script>
+	<script src="plugins/paired_recall.js"></script>
+	<script src="plugins/jspsych-survey-text.js"></script>
+	<script src="plugins/survey-text-paired-recall.js"></script>
+	<script src="plugins/jspsych-survey-text2.js"></script>
+	<script src="plugins/jspsych-single-stim.js"></script>
+	<script src="plugins/jspsych-fixation.js"></script>
+	<script src="plugins/jspsych-survey-text_time.js"></script>
+	<script src="plugins/jspsych-multi-stim-multi-response.js"</script>
+	<script src="jspsych-call-function.js"></script>
+	<script src="plugins/jspsych-single-audio.js"></script>
+  <script src="jspsych-wordlist.js"></script>
+	<script src="lemmas.js"></script>
+	<script type="text/javascript">
+
+
+//	    timeLeft=10
+			function timeMsg() {
+				--timeLeft
+				if(timeLeft < 0){timeLeft=0};
+							$("#time").val(timeLeft);
+							setTimeout("timeMsg()",1000);
+			}
+
+
+			$(document).ready(function() {
+					$("#time").val(timeLeft);
+					setTimeout("timeMsg()",1000);
+			});
+	</script>
+
+
+
+</head>
+<body>
+	<div id="jspsych_target"></div>
+	<div id="jspsych-multi-stim-multi-response-stimulus"></div>
+</body>
+<script type="text/javascript">
+
+// Define Timeline Objects
+var logo = ["img/logo.png"];
+
+var welcome_message = {
+	type: "single-stim",
+	stimulus: logo,
+	is_html: false,
+	choices: [13],
+	timing_post_trial: 10,
+	prompt: "<p><b><h1>Willkommen</h1></b></p> <p>Bitte dr\u00fccke Enter um zu starten</p>"
+};
+
+var peronsl_code = ['<p><b>Bitte gib Deinen 6-stelligen Personen-Code ein</b><br><p>***</p></p> <p style="font-size:18px"> Zur Erinnerung: <br><br><i>Stelle 1</i>: Der erste Buchstabe des Vornamens Deiner Mutter,</p> <p style="font-size:18px"><i>Stelle 2</i>: Der erste Buchstabe des Vornamens Deines Vaters,</p> <p style="font-size:18px"><i>Stellen 3-6</i>: Dein Geburtsjahr; <i>Beispiel</i>: FC1984</p>'];
+
+var demog_block ={
+	type: "survey-text",
+	questions: peronsl_code
+};
+
+var instruction_block = {
+	type: "single-stim",
+	stimulus: logo,
+	is_html: false,
+	choices: [13],
+	timing_post_trial: 10,
+	prompt: '<p><b><h2>Instruktion: Free Recall</h2> </b></p><p style="font-size:20px">Liebe Teilnehmerin, lieber Teilnehmer!</p><p style="font-size:20px">***</p><p style="font-size:20px"> Es folgt eine Aufgabe zum freien Reproduzieren einzelner Wortlisten. Jede Liste enth&aumllt 12 W&oumlrter, die aufeinander folgend f&uumlr jeweils 1 Sekunde pr&aumlsentiert werden. Nach Darbietung der Liste sollst Du alle W&oumlter, die Du Dir gemerkt hast, in beliebiger Reihenfolge in ein Textfeld eintragen. Versuche daher, Dich auf jedes Wort zu konzentrieren und es Dir einzupr&aumlgen. <br><p style="font-size:20px">***</p><p style="font-size:20px">Wende Dich an die Versuchsleiterin/den Versuchsleiter, wenn Du noch Fragen zu dieser Aufgabe hast. <p style="font-size:20px">***</p><p style="font-size:20px">Dr\u00fccke die Enter-Taste, um zun&aumlchst einen <b>Trainingsdurchgang</b> zu absolvieren.</p>'
+};
+
+var instruction_reproduction = ['<p><h1>Bitte laut reproduzieren</h1></p><br><p>Zeit: <h2>30s</h2></p>', '<p><h1>Bitte laut reproduzieren</h1></p><br><p>Zeit: <h2>20s</h2></p>','<p><h1>Bitte laut reproduzieren</h1></p><br><p>Zeit: <h2>10s</h2></p>','<p><h1>Bitte laut reproduzieren</h1></p><br><p>Zeit: <h2>5s</h2></p>', '<p><h1>Bitte laut reproduzieren</h1></p><br><p>Zeit: <h2>1s</h2></p>'];
+
+var reproduction30s = {
+		type:"multi-stim-multi-response",
+		stimuli: instruction_reproduction,
+		timing_stim: [10000, 10000, 5000, 4000, 1000],
+		is_html: true,
+		choices: [[70,74]],
+		prompt: ['<p><br><br><h1><img src="img/heart.png" style="width:130px;height:auto"><h1></p>'],
+		response_ends_trial: false,
+		timing_response: 31000
+}
+
+var firstLead = {
+	type: 'text',
+
+	text: ['<p>Vor der Pr&aumlsentation des ersten Wortes erscheint ein Kreuz in der Bildschirmmitte: Es zeigt Dir den genauen Ort der Darbietung. <p>Unmittelbar nach dem zw&oumllften Wort erscheint f&uumlr 54 Sekunden ein Textfeld. Trage dort alle W&oumlrter ein, an die Du Dich erinnern kannst. <p><b>Wichtig</b>: Schreibe die erinnerten W&oumlrter zeilenweise in das Textfeld, indem Du nach jedem Wort die Enter-Taste dr&uumlckst.<p>Dr&uumlcke nun eine beliebige Taste, um zu beginnen.']
+}
+
+var listLead = {
+	type: 'text',
+	text: ['<p>Dr\u00fccke die Enter-Taste, wenn Du f\u00fcr die Darbietung der n\u00e4chsten Liste bereit bist.<p>']
+}
+
+var fixation = {
+	type: "fixation",
+	stimulus: ['<p"><h4 style="font-size:300%;"> + </h4></p>'],
+	is_html: true,
+	timing_response: 1000
+};
+
+// Wordlist sampling
+function createLists(wordlistItems, listCount, itemCount){
+    var listOfLists = [];
+    for (var i = 0; i < listCount; i++) {
+        // create one random list
+        listOfLists.push(jsPsych.randomization.sample(wordlistItems, itemCount));
+    }
+    return listOfLists;
+}
+
+//Sampling wordlists
+var res = 1;
+var count = 0;
+alert("Bitte um einen Augenblick Gedult; das Experiment wird vorbereitet")
+
+while (res != 0) {
+	var lists = createLists(wordlistItems, 10, 12);
+	var globalList = _.flatten(lists).map(function (item) {
+		return item.Word;
+	});
+
+// comparing strings in lists
+	var sorted_arr = globalList.slice().sort();
+	var res = [];
+	for (var ii = 0; ii < globalList.length - 1; ii++) {
+		if (sorted_arr[ii + 1] == sorted_arr[ii]) {
+			res.push(sorted_arr[ii]);
+		}
+	}
+	if (res != 0) {
+		// während Entwicklungsphase zur Sicherheit Duplikate printen, wenn gefunden, sonst aber....
+		console.log(res.length);
+		count = ++count;
+	}
+	//Duplicate Info
+		else { /*alert(count + " mal generiert: keine Duplikate vorhanden")*/}
+}
+
+var splice_num =[];
+for (var i = 0; i <= sorted_arr.length-1; i++) {
+	for (var j = 0; j <= wordlistItems.length-1;j++){
+    if (sorted_arr[i] == wordlistItems[j].Word){
+			console.log("spliced: " + sorted_arr[i] + " " + wordlistItems[j].Word);
+    	wordlistItems.splice(j, 1);
+			splice_num++;
+    }
+	}
+	console.log("entfernt: " + splice_num + " Einträge");
+}
+
+// Generating words for Paired–Associate–Task
+var count = 0;
+	var paired_lists = createLists(wordlistItems, 1, 312);
+	var pairs =  [];
+	for (var i = 0; i <= paired_lists[0].length-1; i++){
+		pairs[i] = [[paired_lists[0][i].Word], [paired_lists[0][(i+1)].Word]];
+		i++;
+		console.log(pairs);
+	}
+	var flat_paired = _.flatten(pairs);
+	var paired_items = flat_paired.filter(Boolean);
+
+	alert("Jetzt gehts los, viel Spaß!");
+
+		// Item timing
+		var timing = [];
+		for (var i = 0; i < 11; i++){
+			timing.push(1000)}
+
+		var reproduction_stimulus = {
+			type: 'text',
+			text: ["An welche der soeben pr&aumlsentierten W\u00f6rter kannst Du Dich erinnern? <p>Trage die erinnerten W\u00f6rter in das Textfeld der n&aumlchsten Seite ein. Schreibe jedes Wort in eine eigene Zeile \-- durch Dr&uumlcken der Enter-Taste. Du hast 54 Sekunden Zeit.<p>Dr&uumlcke eine beliebige Taste, um zu beginnen."]
+		}
+
+	var listTraining = _.flatten(lists[0]).map(function(item) {
+		return ('<p><h1>' + item.Word + '</h1></p>') ;
+	});
+
+	var blockTraining = {
+		type: 'multi-stim-multi-response',
+		stimuli: listTraining,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockTraining = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	};
+
+	var end_blockTraining = {
+		type: 'text',
+		text: ["Die Trainingsphase ist nun zu Ende. <br>Hast Du noch Fragen? Dann wende Dich an die Versuchsleiterin/den Versuchsleiter.</br><br> Dr&uumlcke ansonsten die Enter-Taste, um mit der Testphase zu beginnen."]
+	}
+
+	var listONE = _.flatten(lists[1]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockONE = {
+		type: 'multi-stim-multi-response',
+		stimuli: listONE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockONE = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listTWO = _.flatten(lists[2]).map(function(item) {
+	    return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockTWO = {
+		type: 'multi-stim-multi-response',
+		stimuli: listTWO,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockTWO = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listTHREE = _.flatten(lists[3]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockTHREE = {
+		type: 'multi-stim-multi-response',
+		stimuli: listTHREE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockTHREE = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listFOUR = _.flatten(lists[4]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockFOUR = {
+		type: 'multi-stim-multi-response',
+		stimuli: listFOUR,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockFOUR = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listFIVE = _.flatten(lists[5]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockFIVE = {
+		type: 'multi-stim-multi-response',
+		stimuli: listFIVE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockFIVE = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listSIX = _.flatten(lists[6]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockSIX = {
+		type: 'multi-stim-multi-response',
+		stimuli: listSIX,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockSIX = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listSEVEN = _.flatten(lists[7]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockSEVEN = {
+		type: 'multi-stim-multi-response',
+		stimuli: listSEVEN,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockSEVEN = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listEIGHT = _.flatten(lists[8]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockEIGHT = {
+		type: 'multi-stim-multi-response',
+		stimuli: listEIGHT,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockEIGHT = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+	var listNINE = _.flatten(lists[9]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockNINE = {
+		type: 'multi-stim-multi-response',
+		stimuli: listNINE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockNINE = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+	var listTEN = _.flatten(lists[10]).map(function(item) {
+		return ('<h1>' + item.Word + '</h1>') ;
+	});
+
+	var blockTEN = {
+		type: 'multi-stim-multi-response',
+		stimuli: listTEN,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+
+	var reproduction_blockTEN = {
+		type: "survey-text_time",
+		//questions: [['stim1'],['stim2']]
+		questions: ['Erinnerte W&oumlrter:'],
+	  rows: [14],
+	  columns: [10],
+	  timing_stim: 54000,
+	  //preamble: "Trage nun alle W\u00f6rter, an die Du dich erinnern kannst, in beliebiger Reihenfolge in das Textfeld ein.<br><br>***"
+	};
+
+/* ######################################################################################################################
+	 ######################################################################################################################*/
+
+var lead_paired_recall = {
+	type: 'text',
+	text: '<p> <br><br><h3>Vielen Dank, diese Aufgabe is nun zu Ende!</h3><h4> <br><br>Als nächstes werden dir pro Durchgang 12 Wortpaare gezeigt, die Du Dir merken sollst. Danach bekommst du je ein Wort pro gelerntem Wortpaar präsentiert und sollst dann versuchen, das zum Paar zugehörige Wort in die Textbox zu schreiben.<br><br>Starte mit <b>Enter</b></h4></p>'
+	};
+
+var lead_trial = {
+	type: 'text',
+	text: '<p> <br><br><br><br><br><br><br><br><br><br><br><br><h3>Gute Arbeit!</h3><br><br><h3>Mit Enter startest Du den n\u00e4chsten Durchgang</h3>'
+	};
+
+var paired_blockONE = _.flatten(lists[[11,12]]).map(function(item) {
+	return ('<h1>' + item.Word + '</h1>') ;
+});
+
+//Generieren der Paare
+var paired_block_items = [];
+var join_pairs = function(raw_block){
+	for (var i = 0; i < 23; i++){
+		var item = raw_block.slice(i, (i + 2)).join("-");
+		i++;
+		paired_block_items.push(item);
+	}
+};
+
+//Funktion zur Itemwahl in der Reproduktionsphase
+var repro_items = [];
+var slice_pairs = function(block_item){
+	for (var i = 0; i < 4; i++){
+		var splitted = block_item[i].split("-");
+		var item_fd = splitted[0] + " – ";
+		repro_items.push(item_fd);
+	};
+	for (var i = 4; i < 8; i++){
+		var splitted = [block_item[i].split("-")];
+		var item_bd = " – " + splitted[0][1];
+		repro_items.push(item_bd);
+	}
+}
+
+//////Trainingsblock
+var paired_block_items = [];
+var raw_blockTRAIN = paired_items.slice(0, 24);
+join_pairs(raw_blockTRAIN);
+var paired_blockTRAIN = paired_block_items;
+delete paired_block_items;
+var paired_associate_blockTRAIN = {
+	type: 'multi-stim-multi-response',
+	stimuli: paired_blockTRAIN,
+	is_html:true,
+	timing_stim: timing,
+	response_ends_trial: false,
+	timing_response: 12*timing[0],
+	choices: [[]], // Y or N
+	prompt: ['']
+};
+console.log(paired_blockTRAIN);
+
+//Reproduction Training
+var reprTRAIN = jsPsych.randomization.sample(paired_blockTRAIN, 8);
+console.log("reprTrain: " + reprTRAIN);
+slice_pairs(reprTRAIN);
+var paired_recall_items = repro_items;
+console.log("reproItems: " + paired_recall_items);
+delete repro_items;
+var reproduction_paired_associate_blockTRAIN_0_0 = {
+		type: 'survey-text-paired-recall',
+		//questions: [['stim1'],['stim2']]
+		questions: [paired_recall_items[0]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_blockTRAIN_0_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		};
+var reproduction_paired_associate_blockTRAIN_0_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		};
+var reproduction_paired_associate_blockTRAIN_0_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		};
+
+var reproduction_paired_associate_blockTRAIN_0_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_blockTRAIN_0_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_blockTRAIN_0_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_blockTRAIN_0_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+////Testblöcke
+	var paired_block_items = [];
+	var raw_blockONE = paired_items.slice(24, 48);
+	join_pairs(raw_blockONE);
+	var paired_blockONE = paired_block_items;
+	delete paired_block_items;
+	var paired_associate_blockOne = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockONE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+	};
+console.log("pairedONE: " + paired_blockONE);
+
+var reprTRAIN = jsPsych.randomization.sample(paired_blockONE, 8);
+console.log("reprTrain: " + reprTRAIN);
+slice_pairs(reprTRAIN);
+var paired_recall_items = repro_items;
+console.log("reproItems: " + paired_recall_items);
+delete repro_items;
+var reproduction_paired_associate_1_0 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[0]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_1_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_1_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_1_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_1_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_1_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_1_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_1_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+var raw_blockTWO = paired_items.slice(48, 72);
+join_pairs(raw_blockTWO);
+var paired_blockTWO = paired_block_items;
+delete paired_block_items;
+var paired_associate_blockTWO = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockTWO,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+		};
+
+
+var reprTRAIN = jsPsych.randomization.sample(paired_blockTWO, 8);
+console.log("reprTrain: " + reprTRAIN);
+slice_pairs(reprTRAIN);
+var paired_recall_items = repro_items;
+console.log("reproItems: " + paired_recall_items);
+delete repro_items;
+var reproduction_paired_associate_2_0 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[0]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_2_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_2_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_2_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_2_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_2_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_2_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_2_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+var raw_blockTHREE = paired_items.slice(72, 96);
+join_pairs(raw_blockTHREE);
+var paired_blockTHREE = paired_block_items;
+delete paired_block_items;
+var paired_associate_blockTHREE = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockTHREE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+		};
+
+var reprTRAIN = jsPsych.randomization.sample(paired_blockTHREE, 8);
+console.log("reprTrain: " + reprTRAIN);
+slice_pairs(reprTRAIN);
+var paired_recall_items = repro_items;
+console.log("reproItems: " + paired_recall_items);
+delete repro_items;
+var reproduction_paired_associate_3_0 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[0]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_3_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_3_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_3_3 = {
+		type: 'survey-text-paired-recall',
+		//questions: [['stim1'],['stim2']]
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_3_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_3_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_3_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_3_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+		var raw_blockFOUR = paired_items.slice(96, 120);
+		join_pairs(raw_blockFOUR);
+		var paired_blockFOUR = paired_block_items;
+		delete paired_block_items;
+		var paired_associate_blockFOUR = {
+					type: 'multi-stim-multi-response',
+					stimuli: paired_blockFOUR,
+					is_html:true,
+					timing_stim: timing,
+					response_ends_trial: false,
+					timing_response: 12*timing[0],
+					choices: [[]], // Y or N
+					prompt: ['']
+				};
+
+var reprTRAIN = jsPsych.randomization.sample(paired_blockFOUR, 8);
+		console.log("reprTrain: " + reprTRAIN);
+		slice_pairs(reprTRAIN);
+		var paired_recall_items = repro_items;
+		console.log("reproItems: " + paired_recall_items);
+		delete repro_items;
+		var reproduction_paired_associate_4_0 = {
+				type: 'survey-text-paired-recall',
+				//questions: [['stim1'],['stim2']]
+				questions: [paired_recall_items[0]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+var reproduction_paired_associate_4_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_4_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_4_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_4_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_4_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_4_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_4_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+var raw_blockFIVE = paired_items.slice(120, 144);
+join_pairs(raw_blockFIVE);
+var paired_blockFIVE = paired_block_items;
+delete paired_block_items;
+var paired_associate_blockFIVE = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockFIVE,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+		};
+
+var reprTRAIN = jsPsych.randomization.sample(paired_blockFIVE, 8);
+console.log("reprTrain: " + reprTRAIN);
+slice_pairs(reprTRAIN);
+var paired_recall_items = repro_items;
+console.log("reproItems: " + paired_recall_items);
+delete repro_items;
+var reproduction_paired_associate_5_0 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[0]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_5_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_5_2 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[2]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_5_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_5_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_5_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_5_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_5_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+var raw_blockSIX = paired_items.slice(144, 168);
+		join_pairs(raw_blockSIX);
+		var paired_blockSIX = paired_block_items;
+		delete paired_block_items;
+		var paired_associate_blockSIX = {
+					type: 'multi-stim-multi-response',
+					stimuli: paired_blockSIX,
+					is_html:true,
+					timing_stim: timing,
+					response_ends_trial: false,
+					timing_response: 12*timing[0],
+					choices: [[]], // Y or N
+					prompt: ['']
+					};
+
+
+	var reprTRAIN = jsPsych.randomization.sample(paired_blockSIX, 8);
+	console.log("reprTrain: " + reprTRAIN);
+	slice_pairs(reprTRAIN);
+	var paired_recall_items = repro_items;
+	console.log("reproItems: " + paired_recall_items);
+	delete repro_items;
+	var reproduction_paired_associate_6_0 = {
+			type: 'survey-text-paired-recall',
+			questions: [paired_recall_items[0]],
+			rows: [1],
+			columns: [10],
+			direction: ''
+			};
+var reproduction_paired_associate_6_1 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[1]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_6_2 = {
+		type: 'survey-text-paired-recall',
+			questions: [paired_recall_items[2]],
+			rows: [1],
+			columns: [10],
+			direction: ''
+			};
+var reproduction_paired_associate_6_3 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[3]],
+		rows: [1],
+		columns: [10],
+		direction: ''
+		};
+var reproduction_paired_associate_6_4 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[4]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_6_5 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[5]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_6_6 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[6]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+var reproduction_paired_associate_6_7 = {
+		type: 'survey-text-paired-recall',
+		questions: [paired_recall_items[7]],
+		rows: [1],
+		columns: [10],
+		direction: 'back'
+		};
+
+var paired_block_items = [];
+var raw_blockSEVEN = paired_items.slice(168, 192);
+join_pairs(raw_blockSEVEN);
+var paired_blockSEVEN = paired_block_items;
+delete paired_block_items;
+var paired_associate_blockSEVEN = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockSEVEN,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+		};
+
+
+		var reprTRAIN = jsPsych.randomization.sample(paired_blockSEVEN, 8);
+		console.log("reprTrain: " + reprTRAIN);
+		slice_pairs(reprTRAIN);
+		var paired_recall_items = repro_items;
+		console.log("reproItems: " + paired_recall_items);
+		delete repro_items;
+		var reproduction_paired_associate_7_0 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[0]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_7_1 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[1]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_7_2 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[2]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_7_3 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[3]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_7_4 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[4]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_7_5 = {
+				type: 'survey-text-paired-recall',
+				//questions: [['stim1'],['stim2']]
+				questions: [paired_recall_items[5]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_7_6 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[6]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_7_7 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[7]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var paired_block_items = [];
+		var raw_blockEIGHT = paired_items.slice(192, 216);
+		join_pairs(raw_blockEIGHT);
+		var paired_blockEIGHT = paired_block_items;
+		delete paired_block_items;
+		var paired_associate_blockEIGHT = {
+		type: 'multi-stim-multi-response',
+		stimuli: paired_blockEIGHT,
+		is_html:true,
+		timing_stim: timing,
+		response_ends_trial: false,
+		timing_response: 12*timing[0],
+		choices: [[]], // Y or N
+		prompt: ['']
+		};
+
+
+		var reprTRAIN = jsPsych.randomization.sample(paired_blockEIGHT, 8);
+		console.log("reprTrain: " + reprTRAIN);
+		slice_pairs(reprTRAIN);
+		var paired_recall_items = repro_items;
+		console.log("reproItems: " + paired_recall_items);
+		delete repro_items;
+		var reproduction_paired_associate_8_0 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[0]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_8_1 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[1]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_8_2 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[2]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_8_3 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[3]],
+				rows: [1],
+				columns: [10],
+				direction: ''
+				};
+		var reproduction_paired_associate_8_4 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[4]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_8_5 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[5]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_8_6 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[6]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+		var reproduction_paired_associate_8_7 = {
+				type: 'survey-text-paired-recall',
+				questions: [paired_recall_items[7]],
+				rows: [1],
+				columns: [10],
+				direction: 'back'
+				};
+
+				var paired_block_items = [];
+				var raw_blockNINE = paired_items.slice(216, 240);
+				join_pairs(raw_blockNINE);
+				var paired_blockNINE = paired_block_items;
+				delete paired_block_items;
+				var paired_associate_blockNINE = {
+				type: 'multi-stim-multi-response',
+				stimuli: paired_blockNINE,
+				is_html:true,
+				timing_stim: timing,
+				response_ends_trial: false,
+				timing_response: 12*timing[0],
+				choices: [[]], // Y or N
+				prompt: ['']
+				};
+
+
+				var reprTRAIN = jsPsych.randomization.sample(paired_blockNINE, 8);
+				console.log("reprTrain: " + reprTRAIN);
+				slice_pairs(reprTRAIN);
+				var paired_recall_items = repro_items;
+				console.log("reproItems: " + paired_recall_items);
+				delete repro_items;
+				var reproduction_paired_associate_9_0 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[0]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_9_1 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[1]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_9_2 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[2]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_9_3 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[3]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_9_4 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[4]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_9_5 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[5]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_9_6 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[6]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_9_7 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[7]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+
+				var paired_block_items = [];
+				var raw_blockTEN = paired_items.slice(240, 264);
+				join_pairs(raw_blockTEN);
+				var paired_blockTEN = paired_block_items;
+				delete paired_block_items;
+				var paired_associate_blockTEN = {
+				type: 'multi-stim-multi-response',
+				stimuli: paired_blockTEN,
+				is_html:true,
+				timing_stim: timing,
+				response_ends_trial: false,
+				timing_response: 12*timing[0],
+				choices: [[]], // Y or N
+				prompt: ['']
+				};
+
+
+				var reprTRAIN = jsPsych.randomization.sample(paired_blockTEN, 8);
+				console.log("reprTrain: " + reprTRAIN);
+				slice_pairs(reprTRAIN);
+				var paired_recall_items = repro_items;
+				console.log("reproItems: " + paired_recall_items);
+				delete repro_items;
+				var reproduction_paired_associate_10_0 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[0]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_10_1 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[1]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_10_2 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[2]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_10_3 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[3]],
+						rows: [1],
+						columns: [10],
+						direction: ''
+						};
+				var reproduction_paired_associate_10_4 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[4]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_10_5 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[5]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_10_6 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[6]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+				var reproduction_paired_associate_10_7 = {
+						type: 'survey-text-paired-recall',
+						//questions: [['stim1'],['stim2']]
+						questions: [paired_recall_items[7]],
+						rows: [1],
+						columns: [10],
+						direction: 'back'
+						};
+
+
+	var outro = {
+		type: 'text',
+		text: '<p> <h1><b>Vielen Dank, die Aufgabe ist nun zu Ende. <br>Weiter mit <b>Enter</b></b></h1></p><br><img src = img/smile.png style=(height: 30px,width: auto)>'
+	};
+
+//Definiere Timeline
+var timeline =[
+		welcome_message,
+		demog_block,
+		instruction_block,
+		firstLead,
+		fixation,
+		blockTraining,
+		//reproduction_stimulus,
+		reproduction_blockTraining,
+		end_blockTraining,
+		listLead,
+		blockONE,
+		// reproduction30s,
+		reproduction_blockONE,
+		listLead,
+		fixation,
+		blockTWO,
+		// reproduction30s,
+		reproduction_blockTWO,
+		listLead,
+		fixation,
+		blockTHREE,
+		// reproduction30s,
+		reproduction_blockTHREE,
+		listLead,
+		fixation,
+		blockFOUR,
+		// reproduction30s,
+		reproduction_blockFOUR,
+		listLead,
+		fixation,
+		blockFIVE,
+		// reproduction30s,
+		reproduction_blockFIVE,
+		listLead,
+		fixation,
+		blockSIX,
+		// reproduction30s,
+		reproduction_blockSIX,
+		listLead,
+		fixation,
+		blockSEVEN,
+		// reproduction30s,
+		reproduction_blockSEVEN,
+		listLead,
+		fixation,
+		blockEIGHT,
+		// reproduction30s,
+		reproduction_blockEIGHT,
+		listLead,
+		fixation,
+		blockNINE,
+		// reproduction30s,
+		reproduction_blockNINE,
+		listLead,
+		fixation,
+		blockTEN,
+		// reproduction30s,
+		reproduction_blockTEN,
+		lead_paired_recall,
+		paired_associate_blockTRAIN,
+		reproduction_paired_associate_blockTRAIN_0_0,
+		reproduction_paired_associate_blockTRAIN_0_1,
+		reproduction_paired_associate_blockTRAIN_0_2,
+		reproduction_paired_associate_blockTRAIN_0_3,
+		reproduction_paired_associate_blockTRAIN_0_4,
+		reproduction_paired_associate_blockTRAIN_0_5,
+		reproduction_paired_associate_blockTRAIN_0_6,
+		reproduction_paired_associate_blockTRAIN_0_7,
+		lead_trial,
+		paired_associate_blockOne,
+		reproduction_paired_associate_1_0,
+		reproduction_paired_associate_1_1,
+		reproduction_paired_associate_1_2,
+		reproduction_paired_associate_1_3,
+		reproduction_paired_associate_1_4,
+		reproduction_paired_associate_1_5,
+		reproduction_paired_associate_1_6,
+		reproduction_paired_associate_1_7,
+		lead_trial,
+		paired_associate_blockTWO,
+		reproduction_paired_associate_2_0,
+		reproduction_paired_associate_2_1,
+		reproduction_paired_associate_2_2,
+		reproduction_paired_associate_2_3,
+		reproduction_paired_associate_2_4,
+		reproduction_paired_associate_2_5,
+		reproduction_paired_associate_2_6,
+		reproduction_paired_associate_2_7,
+		lead_trial,
+		paired_associate_blockTHREE,
+		reproduction_paired_associate_3_0,
+		reproduction_paired_associate_3_1,
+		reproduction_paired_associate_3_2,
+		reproduction_paired_associate_3_3,
+		reproduction_paired_associate_3_4,
+		reproduction_paired_associate_3_5,
+		reproduction_paired_associate_3_6,
+		reproduction_paired_associate_3_7,
+		lead_trial,
+		paired_associate_blockFOUR,
+		reproduction_paired_associate_4_0,
+		reproduction_paired_associate_4_1,
+		reproduction_paired_associate_4_2,
+		reproduction_paired_associate_4_3,
+		reproduction_paired_associate_4_4,
+		reproduction_paired_associate_4_5,
+		reproduction_paired_associate_4_6,
+		reproduction_paired_associate_4_7,
+		lead_trial,
+		paired_associate_blockFIVE,
+		reproduction_paired_associate_5_0,
+		reproduction_paired_associate_5_1,
+		reproduction_paired_associate_5_2,
+		reproduction_paired_associate_5_3,
+		reproduction_paired_associate_5_4,
+		reproduction_paired_associate_5_5,
+		reproduction_paired_associate_5_6,
+		reproduction_paired_associate_5_7,
+		lead_trial,
+		paired_associate_blockSIX,
+		reproduction_paired_associate_6_0,
+		reproduction_paired_associate_6_1,
+		reproduction_paired_associate_6_2,
+		reproduction_paired_associate_6_3,
+		reproduction_paired_associate_6_4,
+		reproduction_paired_associate_6_5,
+		reproduction_paired_associate_6_6,
+		reproduction_paired_associate_6_7,
+		lead_trial,
+		paired_associate_blockSEVEN,
+		reproduction_paired_associate_7_0,
+		reproduction_paired_associate_7_1,
+		reproduction_paired_associate_7_2,
+		reproduction_paired_associate_7_3,
+		reproduction_paired_associate_7_4,
+		reproduction_paired_associate_7_5,
+		reproduction_paired_associate_7_6,
+		reproduction_paired_associate_7_7,
+		lead_trial,
+		paired_associate_blockEIGHT,
+		reproduction_paired_associate_8_0,
+		reproduction_paired_associate_8_1,
+		reproduction_paired_associate_8_2,
+		reproduction_paired_associate_8_3,
+		reproduction_paired_associate_8_4,
+		reproduction_paired_associate_8_5,
+		reproduction_paired_associate_8_6,
+		reproduction_paired_associate_8_7,
+		lead_trial,
+		paired_associate_blockNINE,
+		reproduction_paired_associate_9_0,
+		reproduction_paired_associate_9_1,
+		reproduction_paired_associate_9_2,
+		reproduction_paired_associate_9_3,
+		reproduction_paired_associate_9_4,
+		reproduction_paired_associate_9_5,
+		reproduction_paired_associate_9_6,
+		reproduction_paired_associate_9_7,
+		lead_trial,
+		paired_associate_blockTEN,
+		reproduction_paired_associate_10_0,
+		reproduction_paired_associate_10_1,
+		reproduction_paired_associate_10_2,
+		reproduction_paired_associate_10_3,
+		reproduction_paired_associate_10_4,
+		reproduction_paired_associate_10_5,
+		reproduction_paired_associate_10_6,
+		reproduction_paired_associate_10_7,
+		outro
+
+
+];
+
+
+jsPsych.init({
+	display_element: $("#jspsych_target"),
+	timeline: timeline,
+	show_progress_bar: true,
+	fullscreen: true,
+
+	on_finish: function (data) {
+
+		//Extrahiere Subject ID für Dateinamen
+	var ID = jsPsych.data.getLastTimelineData()[1];
+	var subj_name = []
+	for (var i = 7; i < 15; ++i){
+		subj_name.push(ID.responses[i]);
+	};
+
+	//TXT bzw. CSV Export
+
+		jsPsych.data.localSave('OMFix_WMC_subjID_'+ subj_name.join('') + '.txt', 'csv');
+
+
+	}
+});
+  /*      $('#jspsych_target').append($('<pre>', {
+            html:jsPsych.dataAsCSV()//
+            //html: JSON.stringify(data,undefined,2)
+        }));
+        //jsPsych.saveCSVdata("WAT_t2_data.txt");
+        ext = JSON.stringify(data[[2]],undefined,2);
+        jsPsych.saveCSVdata("WAT_t2_" + ext.slice(88,94) + ".txt");
+*/
+    //}
+
+</script>
+
+
+</html>

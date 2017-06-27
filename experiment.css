@@ -1,0 +1,209 @@
+/* experiment.css */
+
+body {
+	background: #fff;
+	margin: 0;
+	padding: 0;
+	font-size: 22px;
+	font-family: 'Palatino Linotype', FreeSerif, serif;
+}
+
+textarea {
+   font-size: 100%;
+}
+
+
+p {
+  clear: both;
+}
+.very-small {
+  font-size: 50%;
+}
+.small {
+  font-size: 75%;
+}
+.large {
+  font-size: 125%;
+}
+.very-large {
+  font-size: 180%;
+}
+
+.fixation {
+  font-size: 300%;
+
+}
+
+img {
+	width: 50%;
+	height: auto;
+}
+
+#jspsych-survey-text-text-paired-recall {
+	position:relative;
+	float:left;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+
+#jspsych_target {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	text-align: center;
+}
+
+#jspsych_target pre {
+	text-align: left;
+}
+
+#instructions {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+
+#jspsych-single-stim-stimulus {
+width: 180px;
+height: 180px;
+margin-left: auto;
+margin-right: auto;
+margin-top: auto;
+text-align: center;
+}
+
+#jspsych-fixation {
+	display: block;
+	position: relative;
+margin-top: 85%;
+margin-left: auto;
+}
+
+#jspsych-multi-stim-multi-response-stimulus {
+	display: block;
+	position: relative;
+margin-top: 88%;
+margin-left: auto;
+font-size: 150%;
+
+}
+
+
+
+/* jsPsych progress bar */
+
+#jspsych-progressbar-container {
+  color: #777;
+  font-size: 12pt;
+  border-bottom: 2px solid #dedede;
+  background-color: #f3f3f3;
+  margin-bottom: 0.5em;
+	margin-top:0.5em;
+  text-align: center;
+  padding: 5px 0px;
+  width:100%;
+  height:2em;
+}
+#jspsych-progressbar-outer {
+  background-color: #dedede;
+  border-radius: 5px;
+  padding: 1px;
+  width: 800px;
+  margin: auto;
+  height: 0.2em;
+}
+#jspsych-progressbar-inner {
+  background-color: lightseagreen;
+  /* #3EB3D7; */
+  width: 0%;
+  height: 0.2em;
+  border-radius: 5px;
+}
+
+/* PLUGIN: jspsych-animation */
+
+#jspsych-animation-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* PLUGIN: jspsych-categorize-animation */
+
+#jspsych-categorize-animation-stimulus {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* PLUGIN: jspsych-categorize */
+
+#jspsych-categorize-stimulus {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.feedback {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#jspsych-survey-text-next {
+	position:bottom;
+	margin-top: 1em;
+	margin-left:50%;
+	float:center;
+}
+
+#jspsych-survey-text-next-button {
+	float:left;
+	margin-left: 50%;
+	margin-top: 51.5%;
+	font-size: 60%;
+	border-radius:10px;
+}
+
+
+
+#jspsych-survey-text-next-button-back {
+	float:left;
+	margin-left: 50%;
+	margin-top: -5.5%;
+	font-size: 60%;
+	border-radius:10px;
+}
+
+#jspsych-survey-text {
+	position:relative;
+	float: left;
+	margin: 3em;
+}
+
+#jspsych-survey-text-pairedbox {
+	position:relative;
+	float: left;
+	margin-top: 3em;
+}
+
+#aaa {
+	float: right;
+	margin-left: 50px;
+	margin-top: -10px;
+}
+
+
+#paired_recall {
+	display:block;
+	margin-top: 20px;
+}
+
+
+#jspsych-text-stimulus {
+	display:block;
+	margin-top: 20px;
+}

@@ -1,0 +1,146 @@
+times <- c(42950,75378,131797,131977,207886,272228,317817,384274,445045,483777,547214,550212)
+times
+plot(times)
+plot(times,type="l")
+times_9 <- c(42950,75378,131797,131977,207886,272228,317817,384274,445045,483777,547214,550212)
+times_15 <- c(260244,407328,505238,541633,712736)
+times_9 <- c(42950,75378,131797,131977,207886,272228,317817,384274,445045,483777,547214,550212)
+times_15 <- c(260244,407328,505238,541633,712736)
+parti_list <- list(times_9,times_15)
+parti_list
+n_ideas <- sapply(c(1:length(parti_list)),length(parti_list[[i]]))
+n_ideas <- sapply(c(1:length(parti_list)),function(i){length(parti_list[[i]])})
+n_ideas
+i=1
+parti_list[[i]]
+parti_list[[i]][1:max(n_ideas)]
+matr <- function(i){parti_list[[i]][1:max(n_ideas)]}
+sapply(c(1:length(parti_list)),matr)
+t(sapply(c(1:length(parti_list)),matr))
+response_mat <- t(sapply(c(1:length(parti_list)),matr))
+cum_times <- colMeans(response_mat)
+cum_times
+plot(cum_times,type="l")
+cum_times <- colMeans(response_mat,na.rm=T)
+plot(cum_times,type="l")
+cum_times <- colMeans(response_mat)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times
+plot(cum_times,type="l")
+plot(cum_times,type="o",cex=0.6)
+cum_times <- cum_times*1000
+plot(cum_times,type="o",cex=0.6)
+cum_times <- colMeans(response_mat)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- cum_times*1000
+plot(cum_times,type="o",cex=0.6)
+cum_times <- round(cum_times*1000,2)
+plot(cum_times,type="o",cex=0.6)
+cum_times <- round(cum_times*1000,1)
+plot(cum_times,type="o",cex=0.6)
+cum_times
+cum_times <- round(cum_times*1000,0)
+cum_times
+round(cum_times,2)
+round(cum_times,1)
+plot(c(1:length(cum_times))~cum_times,type="o",cex=0.6)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6)
+cum_times
+cum_times/1000
+cum_times*1000
+cum_times/1000
+round(cum_times/1000,0)
+cum_times <- colMeans(response_mat)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+round(cum_times/1000,0)
+cum_times <- colMeans(response_mat)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/1000,0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6)
+cum_times <- colMeans(response_mat)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- cum_times[-which(is.na(cum_times)==F)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+response_mat
+cum_times
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),1)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- round(cum_times/(1000*60),1)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),1)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+plot(c(1:length(cum_times))~c(cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+times_14 <- c(79532,118484,202595,285058,313187,440953,498970,682079,778464,811256,852612)
+parti_list <- list(times_9,times_14,times_15)
+n_ideas <- sapply(c(1:length(parti_list)),function(i){length(parti_list[[i]])})
+matr <- function(i){parti_list[[i]][1:max(n_ideas)]}
+response_mat <- t(sapply(c(1:length(parti_list)),matr))
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+matr <- function(i){parti_list[[i]][1:max(n_ideas)]}
+response_mat <- t(sapply(c(2:length(parti_list)),matr))
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+response_mat <- t(sapply(c(1:length(parti_list)),matr))
+cum_times <- colMeans(response_mat,na.rm=T)
+cum_times <- colMeans(response_mat,na.rm=F)
+cum_times <- cum_times[-which(is.na(cum_times)==T)]
+cum_times <- round(cum_times/(1000*60),0)
+plot(c(0:length(cum_times))~c(0,cum_times),type="o",cex=0.6,ylab="Number unique ideas",xlab="Minutes",
+cex.lab=0.6,cex.axis=0.6)
+7/5
