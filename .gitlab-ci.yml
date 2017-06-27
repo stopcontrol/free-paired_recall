@@ -1,0 +1,7 @@
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  script:
+  - host-on-hyperion
